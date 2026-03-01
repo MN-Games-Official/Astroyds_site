@@ -16,6 +16,9 @@ const ParticleHero = (() => {
   /** @type {string} Accent colour used for particles and lines */
   const ACCENT = '#00d4ff';
 
+  /** @type {string} RGBA base derived from ACCENT (without alpha) */
+  const ACCENT_RGB = '0, 212, 255';
+
   /** @type {number} Maximum connection distance (squared for perf) */
   const CONNECT_DIST_SQ = 150 * 150;
 
@@ -103,7 +106,7 @@ const ParticleHero = (() => {
   Particle.prototype.draw = function (context) {
     context.beginPath();
     context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-    context.fillStyle = `rgba(0, 212, 255, ${this.opacity})`;
+    context.fillStyle = `rgba(${ACCENT_RGB}, ${this.opacity})`;
     context.fill();
   };
 
@@ -145,7 +148,7 @@ const ParticleHero = (() => {
 
         if (distSq < CONNECT_DIST_SQ) {
           const alpha = 1 - distSq / CONNECT_DIST_SQ;
-          ctx.strokeStyle = `rgba(0, 212, 255, ${alpha * 0.25})`;
+          ctx.strokeStyle = `rgba(${ACCENT_RGB}, ${alpha * 0.25})`;
           ctx.lineWidth = 0.6;
           ctx.beginPath();
           ctx.moveTo(particles[i].x, particles[i].y);

@@ -264,7 +264,7 @@ const App = (() => {
 
       const csrfToken =
         qs('meta[name="csrf-token"]')?.getAttribute('content') ||
-        qs('input[name="_token"]', form)?.value ||
+        qs('input[name="csrf_token"]', form)?.value ||
         '';
 
       const data = new FormData(form);

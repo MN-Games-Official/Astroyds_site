@@ -25,17 +25,25 @@ const Analytics = (() => {
   /**
    * Initialise Microsoft Clarity by dynamically injecting its script.
    * No-ops if consent has not been granted or if already loaded.
-   * @param {string} [trackingId=''] - Clarity project ID.
+   * Falls back to reading the tracking ID from a meta tag or data attribute
+   * when no explicit ID is provided.
+   * @param {string} [trackingId] - Clarity project ID (optional).
    */
-  const initClarity = (trackingId = '') => {
+  const initClarity = (trackingId) => {
     if (clarityLoaded) return;
     if (!isAnalyticsEnabled()) return;
-    if (!trackingId) return;
+
+    const id =
+      trackingId ||
+      document.querySelector('meta[name="clarity-id"]')?.getAttribute('content') ||
+      document.documentElement.dataset.clarityId ||
+      '';
+    if (!id) return;
 
     const script = document.createElement('script');
     script.type = 'text/javascript';
     script.async = true;
-    script.src = `https://www.clarity.ms/tag/${encodeURIComponent(trackingId)}`;
+    script.src = `https://www.clarity.ms/tag/${encodeURIComponent(id)}`;
     document.head.appendChild(script);
 
     clarityLoaded = true;
